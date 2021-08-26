@@ -91,7 +91,7 @@ export class Gateway extends EventEmitter {
     );
   }
 
-  _onOpen(d) {
+  _onOpen() {
     this.status = "handshaking";
     this.lastHeartbeatAck = true;
   }
