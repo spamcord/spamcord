@@ -1,7 +1,7 @@
 import EventEmitter from "https://deno.land/x/eventemitter@1.2.1/mod.ts"
-import { OP_CODES } from "./constants.js"
+import { OP_CODES } from "../constants.js"
 
-class Gatewaty extends EventEmitter {
+export class Gatewaty extends EventEmitter {
     #token
     constructor(_token, options) {
         super()
