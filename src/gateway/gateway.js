@@ -26,7 +26,7 @@ export class Gateway extends EventEmitter {
         this.identifyData = data
 
         if (this.ws && this.ws.readyState != WebSocket.CLOSED) {
-        throw new Error("Existing connection detected")
+            throw new Error("Existing connection detected")
         }
         this.connecting = true;
         this.initializeWS()
@@ -60,6 +60,9 @@ export class Gateway extends EventEmitter {
     }
 
     resume() {
+
+        this.status = "resuming"
+        this.ws.send(JSON.stringify({ op: OP_CODES.RESUME, d: { token: this.#token, session_id: this.sessionID, seq: this.seq }}))
 
     }
 

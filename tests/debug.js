@@ -13,3 +13,12 @@ connection.connect({
 })
 
 connection.ws.addEventListener("message", (d) => console.log(JSON.parse(d.data)))
+
+/*
+setTimeout(() => {
+    connection.ws.close()
+    connection.ws = null
+    connection.connect(connection.identifyData)
+    connection.ws.addEventListener("message", (d) => console.log(JSON.parse(d.data)))
+}, 3 * 1000)
+*/
