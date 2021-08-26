@@ -101,6 +101,7 @@ export class Gateway extends EventEmitter {
 
             case OP_CODES.EVENTS:
                 this.emit(data.t, data.d)
+                if(data.t === "READY") this.sessionID = data.d.session_id
                 break
 
             case OP_CODES.HELLO:
