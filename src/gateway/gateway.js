@@ -81,7 +81,8 @@ export class Gateway extends EventEmitter {
 
     if (regular) {
       if (!this.lastHeartbeatAck) {
-        throw new Error(
+        this.emit(
+          "warn",
           "Server didn't acknowledge previous heartbeat, possible lost connection",
         );
       }
@@ -140,7 +141,10 @@ export class Gateway extends EventEmitter {
 
     if (data.s) {
       if (data.s > this.seq + 1 && this.ws && this.status !== "resuming") {
-        console.log(`Non-consecutive sequence (${this.seq} -> ${data.s})`);
+        this.emit(
+          "warn",
+          `Non-consecutive sequence (${this.seq} -> ${data.s})`,
+        );
       }
       this.seq = data.s;
     }
@@ -193,6 +197,7 @@ export class Gateway extends EventEmitter {
         throw error when can't reconnect,
         set sessionID to null when can't resume session */
       const message = getErrorMessage();
+      this.emit("warn", `Disconnected: ${message}`);
     }
 
     this.reconnect();
