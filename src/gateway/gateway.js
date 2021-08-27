@@ -73,6 +73,15 @@ export class Gateway extends EventEmitter {
   }
 
   reconnect() {
+    if (this.ws.readyState !== WebSocket.CLOSED) {
+      this.ws.close();
+    }
+
+    this.ws = null;
+
+    clearInterval(this.heartbeatInterval);
+    this.connecting = true;
+    this.initializeWS();
   }
 
   heartbeat(regular) {
