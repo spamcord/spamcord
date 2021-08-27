@@ -72,6 +72,9 @@ export class Gateway extends EventEmitter {
     );
   }
 
+  reconnect() {
+  }
+
   heartbeat(regular) {
     // Can only heartbeat after resume succeeds, discord/discord-api-docs#1619
     if (this.status === "resuming") return;
@@ -89,6 +92,42 @@ export class Gateway extends EventEmitter {
     this.ws.send(
       JSON.stringify({ op: OP_CODES.HEARTBEAT, d: null, s: this.seq }),
     );
+  }
+
+  getErrorMessage() {
+    switch (code) {
+      case 1006:
+        return "Connection reset by peer";
+      case 4002:
+        return "Gateway received invalid OP code";
+      case 4003:
+        return "Gateway received invalid message";
+      case 4004:
+        throw new Error("Not authenticated");
+      case 4005:
+        throw new Error("Authentication failed");
+      case 4005:
+        throw new Error("Already authenticated");
+      case 4006:
+        this.sessionID = null;
+        return "";
+      case 4007:
+        return "Invalid sequence number";
+      case 4008:
+        return "Gateway connection was ratelimited";
+      case 4009:
+        return "Gateway connection was ratelimited";
+      case 4010:
+        throw new Error("Invalid shard key");
+      case 4011:
+        throw new Error("Shard has too many guilds (>2500)");
+      case 4013:
+        throw new Error("Invalid intents specified");
+      case 4014:
+        throw new Error("Disallowed intents specified");
+      default:
+        return "Unknown close code";
+    }
   }
 
   _onOpen() {
@@ -147,6 +186,15 @@ export class Gateway extends EventEmitter {
     console.log(d);
   }
   _onClose(d) {
-    console.log(d);
+    const code = d.code;
+
+    if (code) {
+      /* Return error message,
+        throw error when can't reconnect,
+        set sessionID to null when can't resume session */
+      const message = getErrorMessage();
+    }
+
+    this.reconnect();
   }
 }
