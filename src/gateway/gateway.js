@@ -117,7 +117,8 @@ export class Gateway extends EventEmitter {
       case 4008:
         return "Gateway connection was ratelimited";
       case 4009:
-        return "Gateway connection was ratelimited";
+        this.sessionID = null;
+        return "";
       case 4010:
         throw new Error("Invalid shard key");
       case 4011:
