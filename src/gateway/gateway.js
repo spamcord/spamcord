@@ -104,14 +104,12 @@ export class Gateway extends EventEmitter {
       case 4003:
         return "Gateway received invalid message";
       case 4004:
-        throw new Error("Not authenticated");
-      case 4005:
         throw new Error("Authentication failed");
       case 4005:
         throw new Error("Already authenticated");
       case 4006:
         this.sessionID = null;
-        return "";
+        return "Invalid session";
       case 4007:
         return "Invalid sequence number";
       case 4008:
