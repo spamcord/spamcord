@@ -3,10 +3,8 @@ import { OP_CODES } from "../constants.js";
 
 export class Gateway extends EventEmitter {
   #token;
-  constructor(_token, options) {
+  constructor(_token, options = {}) {
     super();
-
-    if (!options) options = {};
 
     this.#token = _token;
     this.connecting = false;
