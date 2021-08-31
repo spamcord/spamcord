@@ -1,7 +1,9 @@
 import { Queue } from "./queue.js";
 
 export class RequestHandler {
-  constructor() {
+  #token;
+  constructor(_token) {
+    this.#token = _token;
     this.queues = {};
   }
 
@@ -9,7 +11,7 @@ export class RequestHandler {
     const key = this.simplify(url, method);
 
     if (!this.queues[key]) {
-      this.queues[key] = new Queue();
+      this.queues[key] = new Queue(this.#token);
     }
 
     return await this.queues[key].push(url, method, body);

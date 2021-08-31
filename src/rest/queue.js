@@ -2,9 +2,11 @@ import { wait } from "../utlis.js";
 
 export class Queue {
   #requests;
+  #token;
 
-  constructor() {
+  constructor(_token) {
     this.#requests = [];
+    this.#token = _token;
     this.isRunning = false;
   }
 
@@ -51,6 +53,7 @@ export class Queue {
     return fetch(url, {
       method,
       headers: {
+        "authorization": this.#token,
         "content-type": "application/json",
         ...headers,
       },
