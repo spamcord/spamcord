@@ -92,7 +92,7 @@ export class Gateway extends EventEmitter {
           "warn",
           "Server didn't acknowledge previous heartbeat, possible lost connection",
         );
-
+        return this.ws.close(4901, "reconnect");
       }
 
       this.lastHeartbeatAck = false;
