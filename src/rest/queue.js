@@ -9,7 +9,6 @@ export class Queue {
   }
 
   push(url, method, body) {
-
     return new Promise((resolve, reject) => {
       this.#requests.push({ url, method, body, resolve, reject });
 
