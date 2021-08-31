@@ -195,13 +195,15 @@ export class Gateway extends EventEmitter {
   _onError(d) {
     console.log(d);
   }
+
   _onClose(d) {
+    this.status = "disconnected";
     const code = d.code;
 
     if (code) {
       /* Return error message,
-              throw error when can't reconnect,
-              set sessionID to null when can't resume session */
+         throw error when can't reconnect,
+         set sessionID to null when can't resume session */
       const message = this.getErrorMessage(code);
       this.emit("warn", `Disconnected: ${message}`);
     }
