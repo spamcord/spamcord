@@ -2,7 +2,7 @@ import { Gateway } from "../src/gateway/gateway.js";
 import "https://deno.land/x/dotenv/load.ts";
 
 const connection = new Gateway(Deno.env.get("TOKEN"));
-connection.connect({//test
+connection.connect({
   intents: 32509,
   properties: {
     $os: Deno.build.$os,
