@@ -23,7 +23,7 @@ export class Gateway extends EventEmitter {
 
     this.identifyData = data;
 
-    if (this.ws && this.ws.readyState != WebSocket.CLOSED) {
+    if (this.ws && this.ws.readyState !== WebSocket.CLOSED) {
       throw new Error("Existing connection detected");
     }
     this.connecting = true;
@@ -102,7 +102,7 @@ export class Gateway extends EventEmitter {
     );
   }
 
-  getErrorMessage() {
+  getErrorMessage(code) {
     switch (code) {
       case 1006:
         return "Connection reset by peer";
@@ -202,7 +202,7 @@ export class Gateway extends EventEmitter {
       /* Return error message,
         throw error when can't reconnect,
         set sessionID to null when can't resume session */
-      const message = getErrorMessage();
+      const message = this.getErrorMessage(code);
       this.emit("warn", `Disconnected: ${message}`);
     }
 
