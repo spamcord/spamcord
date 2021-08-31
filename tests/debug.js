@@ -1,4 +1,4 @@
-import { Gateway } from "../src/gateway/gateway.js";
+import { Gateway } from "../mod.js";
 import "https://deno.land/x/dotenv/load.ts";
 
 const connection = new Gateway(Deno.env.get("TOKEN"));
