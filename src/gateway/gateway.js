@@ -11,6 +11,7 @@ export class Gateway extends EventEmitter {
 
     this.options = {
       url: options.url || "wss://gateway.discord.gg/?v=9&encoding=json",
+      onlyRawEvent: options.onlyRawEvent || false,
     };
   }
 
@@ -170,7 +171,12 @@ export class Gateway extends EventEmitter {
 
     switch (data.op) {
       case OP_CODES.EVENTS:
-        this.emit(data.t, data.d);
+        if (this.options.onlyRawEvent) {
+          this.emit("*", data);
+        } else {
+          this.emit(data.t, data.d);
+        }
+
         if (data.t === "READY") this.sessionID = data.d.session_id;
         break;
 
