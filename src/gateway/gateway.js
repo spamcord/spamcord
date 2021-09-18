@@ -16,18 +16,15 @@ export class Gateway extends EventEmitter {
 
   connect(data) {
     if (!data) {
-      this.emit(
-        "error",
-        new Error(
-          "Missing identify data\nhttps://discord.com/developers/docs/topics/gateway#identify-identify-structure",
-        ),
+      throw new Error(
+        "Missing identify data\nhttps://discord.com/developers/docs/topics/gateway#identify-identify-structure",
       );
     }
 
     this.identifyData = data;
 
     if (this.ws && this.ws.readyState !== WebSocket.CLOSED) {
-      this.emit("error", new Error("Existing connection detected"));
+      throw new Error("Existing connection detected");
     }
     this.connecting = true;
     this.initializeWS();
@@ -35,7 +32,7 @@ export class Gateway extends EventEmitter {
 
   initializeWS() {
     if (!this.#token) {
-      this.emit("error", new Error("Token not specified"));
+      throw new Error("Token not specified");
     }
 
     this.status = "connecting";
@@ -50,11 +47,8 @@ export class Gateway extends EventEmitter {
 
   identify() {
     if (!this.identifyData) {
-      this.emit(
-        "error",
-        new Error(
-          "Missing identify data\nhttps://discord.com/developers/docs/topics/gateway#identify-identify-structure",
-        ),
+      throw new Error(
+        "Missing identify data\nhttps://discord.com/developers/docs/topics/gateway#identify-identify-structure",
       );
     }
 
@@ -118,11 +112,9 @@ export class Gateway extends EventEmitter {
       case 4003:
         return "Gateway received invalid message";
       case 4004:
-        this.emit("error", new Error("Authentication failed"));
-        break;
+        throw new Error("Authentication failed");
       case 4005:
-        this.emit("error", new Error("Already authenticated"));
-        break;
+        throw new Error("Already authenticated");
       case 4006:
         this.sessionID = null;
         return "Invalid session";
@@ -134,17 +126,13 @@ export class Gateway extends EventEmitter {
         this.sessionID = null;
         return "";
       case 4010:
-        this.emit("error", new Error("Invalid shard key"));
-        break;
+        throw new Error("Invalid shard key");
       case 4011:
-        this.emit("error", new Error("Shard has too many guilds (>2500)"));
-        break;
+        throw new Error("Shard has too many guilds (>2500)");
       case 4013:
-        this.emit("error", new Error("Invalid intents specified"));
-        break;
+        throw new Error("Invalid intents specified");
       case 4014:
-        this.emit("error", new Error("Disallowed intents specified"));
-        break;
+        throw new Error("Disallowed intents specified");
       default:
         return "Unknown close code";
     }
