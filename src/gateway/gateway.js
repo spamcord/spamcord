@@ -41,8 +41,8 @@ export class Gateway extends EventEmitter {
 
     this.ws.onopen = this._onOpen.bind(this);
     this.ws.onmessage = this._onMessage.bind(this);
+    this.ws.onclose = this._onClose.bind(this);
     this.ws.onerror = this._onError;
-    this.ws.onclose = this._onClose;
   }
 
   identify() {
