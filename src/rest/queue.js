@@ -47,6 +47,7 @@ export class Queue {
 
       await wait(50);
     }
+    this.isRunning = false
   }
 
   fetch(url, method, body, headers = {}) {
